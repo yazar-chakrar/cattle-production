@@ -1,0 +1,73 @@
+[{
+  "_id": {
+    "$oid": "638f30a56c27614b2030e266"
+  },
+  "registerNumber": 245633386,
+  "breed": "Holstein",
+  "dateIn": {
+    "$date": {
+      "$numberLong": "1670328485022"
+    }
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "6390a7dc830ea22c9215156b"
+  },
+  "registerNumber": 123456789,
+  "breed": "Montbeliard",
+  "dateIn": {
+    "$date": {
+      "$numberLong": "1670424540626"
+    }
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "6390a7e6830ea22c9215156f"
+  },
+  "registerNumber": 123453789,
+  "breed": "Montbeliard",
+  "dateIn": {
+    "$date": {
+      "$numberLong": "1670424550767"
+    }
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "6390a817830ea22c92151572"
+  },
+  "registerNumber": 127923789,
+  "breed": "Holstein",
+  "dateIn": {
+    "$date": {
+      "$numberLong": "1670424599156"
+    }
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "6390a81e830ea22c92151575"
+  },
+  "registerNumber": 103923789,
+  "breed": "Holstein",
+  "dateIn": {
+    "$date": {
+      "$numberLong": "1670424606567"
+    }
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "6390a827830ea22c92151578"
+  },
+  "registerNumber": 103492789,
+  "breed": "Holstein",
+  "dateIn": {
+    "$date": {
+      "$numberLong": "1670424615565"
+    }
+  },
+  "__v": 0
+}]

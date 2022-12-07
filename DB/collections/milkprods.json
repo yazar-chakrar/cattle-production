@@ -1,0 +1,34 @@
+[{
+  "_id": {
+    "$oid": "6390b3441ccd7150be9745d1"
+  },
+  "prodDate": {
+    "$date": {
+      "$numberLong": "1665097200000"
+    }
+  },
+  "quantity": 234,
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "6390b3b9f4e4155c75fc7dfe"
+  },
+  "prodDate": {
+    "$date": {
+      "$numberLong": "1670367600000"
+    }
+  },
+  "quantity": 234,
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "6390b6446a65cf389214d12a"
+  },
+  "prodDate": {
+    "$date": {
+      "$numberLong": "1667775600000"
+    }
+  },
+  "quantity": 234,
+  "__v": 0
+}]
