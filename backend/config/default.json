@@ -1,0 +1,4 @@
+{
+    "jwtPrivateKey": "mySecKey",
+    "db": "mongodb://localhost/cattle-production"
+}

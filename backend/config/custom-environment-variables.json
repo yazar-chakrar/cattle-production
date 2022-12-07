@@ -1,0 +1,5 @@
+{
+    "jwtPrivateKey": "corn-flix_jwtPrivateKey",
+    "db": "mongodb://localhost/cattle-production"
+
+} 
