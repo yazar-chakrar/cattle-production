@@ -4,11 +4,17 @@ const {MilkProd, validate} = require('../models/production');
 const express = require('express');
 const router = express.Router();
 
+// @desc Get all Milk Productions
+// @route api/production
+// @access Public
 router.get('/', asyncMiddleware(async (req, res) => {
   const milkProd = await MilkProd.find().sort('prodDate');
   res.send(milkProd);
 }));
 
+// @desc Post day Milk Productions
+// @route api/production
+// @access Public
 router.post('/', asyncMiddleware(async (req, res) => {
     const {error} = validate(req.body);
     if (error) return res.status(400).send(error.details[0].message);
@@ -26,6 +32,9 @@ router.post('/', asyncMiddleware(async (req, res) => {
     res.send(await milkProd.save());
 }));
 
+// @desc Update day Milk Productions
+// @route api/production
+// @access Public
 router.put('/:id', asyncMiddleware(async (req, res) => {
     const { error } = validate(req.body); 
     if (error) return res.status(400).send(error.details[0].message);
@@ -46,12 +55,18 @@ router.put('/:id', asyncMiddleware(async (req, res) => {
     res.send(milkProd);
 }));
 
+// @desc get one day Milk Productions
+// @route api/production
+// @access Public
 router.get('/:id', asyncMiddleware(async(req, res) => {
     const milkProd = await MilkProd.findById(req.params.id);
     if (!milkProd) return res.status(404).send('The milkProd with given id wasn t found');
     res.send(milkProd);
 }));
-  
+
+// @desc Delete day Milk Productions
+// @route api/production
+// @access Public
 router.delete('/:id', async(req, res) => {
     const milkProd = await MilkProd.findByIdAndRemove(req.params.id);
     if (!milkProd) return res.status(404).send('The milkProd with given id wasn t found');

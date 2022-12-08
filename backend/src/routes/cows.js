@@ -4,11 +4,17 @@ const {Cow, validate} = require('../models/cow');
 const express = require('express');
 const router = express.Router();
 
+// @desc Get All Cows
+// @route api/cows
+// @access Public
 router.get('/', asyncMiddleware(async (req, res) => {
   const cows = await Cow.find().sort('dateIn');
   res.send(cows);
 }));
 
+// @desc Post Cow
+// @route api/cows
+// @access Public
 router.post('/', asyncMiddleware(async(req, res) => {
     const { error } = validate(req.body); 
     if (error) return res.status(400).send(error.details[0].message);
@@ -25,6 +31,9 @@ router.post('/', asyncMiddleware(async(req, res) => {
     res.send(cow);
 }));
 
+// @desc Update Cow
+// @route api/cows
+// @access Public
 router.put('/:id', asyncMiddleware(async (req, res) => {
   const { error } = validate(req.body); 
   if (error) return res.status(400).send(error.details[0].message);
@@ -46,12 +55,18 @@ router.put('/:id', asyncMiddleware(async (req, res) => {
   res.send(cow);
 }));
 
+// @desc get One Cow
+// @route api/cows
+// @access Public
 router.get('/:id', asyncMiddleware(async(req, res) => {
   const cow = await Cow.findById(req.params.id);
   if (!cow) return res.status(404).send('The Cow with given id wasn t found');
   res.send(cow);
 }));
 
+// @desc Delete one Cow
+// @route api/cows
+// @access Public
 router.delete('/:id', asyncMiddleware(async(req, res) => {
   const cow = await Cow.findByIdAndRemove(req.params.id);
   if (!cow) return res.status(404).send('The Cow with given id wasn t found');
