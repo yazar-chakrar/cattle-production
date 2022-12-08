@@ -18,10 +18,32 @@ router.post('/', asyncMiddleware(async(req, res) => {
   
     let cow = new Cow({ 
         registerNumber: req.body.registerNumber,
+        dateIn: req.body.dateIn,
         breed: req.body.breed,
     });
     cow = await cow.save();
     res.send(cow);
+}));
+
+router.put('/:id', asyncMiddleware(async (req, res) => {
+  const { error } = validate(req.body); 
+  if (error) return res.status(400).send(error.details[0].message);
+
+  const cow = await Cow.findByIdAndUpdate(
+      req.params.id,
+      {
+          registerNumber: req.body.registerNumber,
+          dateIn: req.body.dateIn,
+          breed: req.body.breed,
+      },
+      {
+          new: true
+      }
+  );
+
+  if (!cow) return res.status(404).send('The cow with the given ID was not found.');
+
+  res.send(cow);
 }));
 
 router.get('/:id', asyncMiddleware(async(req, res) => {

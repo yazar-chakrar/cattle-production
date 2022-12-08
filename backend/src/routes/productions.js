@@ -26,6 +26,26 @@ router.post('/', asyncMiddleware(async (req, res) => {
     res.send(await milkProd.save());
 }));
 
+router.put('/:id', asyncMiddleware(async (req, res) => {
+    const { error } = validate(req.body); 
+    if (error) return res.status(400).send(error.details[0].message);
+
+    const milkProd = await MilkProd.findByIdAndUpdate(
+        req.params.id,
+        {
+            prodDate: req.body.prodDate,
+            quantity: req.body.quantity
+        },
+        {
+            new: true
+        }
+    );
+  
+    if (!milkProd) return res.status(404).send('The MilkProd with the given ID was not found.');
+  
+    res.send(milkProd);
+}));
+
 router.get('/:id', asyncMiddleware(async(req, res) => {
     const milkProd = await MilkProd.findById(req.params.id);
     if (!milkProd) return res.status(404).send('The milkProd with given id wasn t found');

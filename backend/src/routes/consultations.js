@@ -22,6 +22,26 @@ router.post('/', asyncMiddleware(async (req, res) => {
     res.send(await conslt.save());
 }));
 
+router.put('/:id', asyncMiddleware(async (req, res) => {
+    const { error } = validate(req.body); 
+    if (error) return res.status(400).send(error.details[0].message);
+
+    const conslt = await Conslt.findByIdAndUpdate(
+        req.params.id,
+        {
+            consltDate: req.body.consltDate,
+            disease: req.body.disease
+        },
+        {
+            new: true
+        }
+    );
+  
+    if (!conslt) return res.status(404).send('The conslt with the given ID was not found.');
+  
+    res.send(conslt);
+}));
+
 router.get('/:id', asyncMiddleware(async(req, res) => {
     const conslt = await Conslt.findById(req.params.id);
     if (!conslt) return res.status(404).send('The Conslt with given id wasn t found');

@@ -15,7 +15,7 @@ require('./settings/joi')();
 
 // startup
 require('./startup/db')();
-require('./startup/logging')();
+//require('./startup/logging')();
 require('./startup/routes')(app);
 
 
