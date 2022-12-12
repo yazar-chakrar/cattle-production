@@ -1,72 +1,37 @@
 /*jshint esversion: 8 */
-const asyncMiddleware = require('../middleware/async');
-const {Conslt, validate} = require('../models/consultation');
-const express = require('express');
+const express = require("express");
 const router = express.Router();
+const {
+  getConslts,
+  postConslt,
+  updateConslt,
+  getConslt,
+  deleteConslt,
+} = require("../controllers/consultations");
 
 // @desc Get all Consultations
 // @route api/consults
 // @access Public
-router.get('/', asyncMiddleware(async (req, res) => {
-  const conslts = await Conslt.find().sort('consltDate');
-  //throw new Error('SUML SERV ERR');
-  res.send(conslts);
-}));
+router.get("/", (req, res) => getConslts(req, res));
 
-// @desc Get one Consultation
+// @desc Post Consultation
 // @route api/consults
 // @access Public
-router.post('/', asyncMiddleware(async (req, res) => {
-    const {error} = validate(req.body);
-    if (error) return res.status(400).send(error.details[0].message);
-
-    let conslt = new Conslt({
-        consltDate: req.body.consltDate,
-        disease: req.body.disease
-    })
-
-    res.send(await conslt.save());
-}));
+router.post("/", (req, res) => postConslt(req, res));
 
 // @desc Update Consultation
 // @route api/consults
 // @access Public
-router.put('/:id', asyncMiddleware(async (req, res) => {
-    const { error } = validate(req.body); 
-    if (error) return res.status(400).send(error.details[0].message);
-
-    const conslt = await Conslt.findByIdAndUpdate(
-        req.params.id,
-        {
-            consltDate: req.body.consltDate,
-            disease: req.body.disease
-        },
-        {
-            new: true
-        }
-    );
-  
-    if (!conslt) return res.status(404).send('The conslt with the given ID was not found.');
-  
-    res.send(conslt);
-}));
+router.put("/:id", (req, res) => updateConslt(req, res));
 
 // @desc Get Consultation
 // @route api/consults
 // @access Public
-router.get('/:id', asyncMiddleware(async(req, res) => {
-    const conslt = await Conslt.findById(req.params.id);
-    if (!conslt) return res.status(404).send('The Conslt with given id wasn t found');
-    res.send(conslt);
-}));
+router.get("/:id", (req, res) => getConslt(req, res));
 
 // @desc Delete Consultation
 // @route api/consults
 // @access Public
-router.delete('/:id', asyncMiddleware(async(req, res) => {
-    const conslt = await Conslt.findByIdAndRemove(req.params.id);
-    if (!conslt) return res.status(404).send('The Conslt with given id wasn t found');
-    res.send(conslt);
-}));
+router.delete("/:id", (req, res) => deleteConslt(req, res));
 
 module.exports = router;

@@ -1,64 +1,68 @@
-import React, {Component} from 'react';
+import React from "react";
 import Joi from "joi-browser";
-import { getMovie } from '../services/fakeMovieService';
-import { saveMovie } from './../services/fakeMovieService';
-class CowForm extends Component {
-    state = {
-        data: {
-            cowregnumber:"",
-            cowbreed:"",
-            cowdate:""
-        },
-        breeds: [],
-        errors: {}
+import Form from "./common/form";
+import { getCow, saveCow } from "../services/cowService";
+class CowForm extends Form {
+  state = {
+    data: {
+      cowregnumber: "",
+      cowbreedId: "",
+      cowdate: "",
+    },
+    breeds: [],
+    errors: {},
+  };
+
+  schema = {
+    _id: Joi.string(),
+    registerNumber: Joi.number().required().label("Register Number"),
+    dateIn: Joi.number().label("Date In"),
+    breedId: Joi.string().required().label("Breed"),
+  };
+  componentDidMount() {
+    const breeds = ["Montbeliard", "Holstein"];
+    this.setState({ breeds });
+
+    //const cowId = this.props.match.params.id;
+    const cowId = "new";
+    if (cowId === "new") return;
+
+    const cow = getCow(cowId);
+    if (!cow) return this.props.history.replace("not-found");
+
+    this.setState({ data: this.mapToViewModel(cow) });
+  }
+
+  mapToViewModel(cow) {
+    return {
+      _id: cow._id,
+      registerNumber: cow.registerNumber,
+      dateIn: cow.dateIn,
+      breedId: cow.breedId,
     };
+  }
 
-    schema ={
-        _id: Joi.string(),
-        registerNumber: Joi.number().min(100000000).max(999999999).required().label("Register Number"),
-        dateIn: Joi.date().label("Date In"),
-        breed: Joi.string().required().label("Breed")
-    };
-    componentDidMount() {
-        const breeds = ['Action', 'Thriller', 'Montbeliard', 'Holstein']
-        this.setState({breeds})
-    };
+  doSubmit = () => {
+    saveCow(this.state.data);
+    this.props.history.push("/cows");
+  };
 
-    doSubmit =()=>{
-        saveMovie(this.state.data);
-        this.props.history.push("/cows")
-    }
-    handleSubmit = e =>{
-        e.preventDefault();
-
-        //
-        const cowregnumber = document.getElementById('cowregnumber').value;
-        const cowbreed = document.getElementById('cowbreed').value;
-        const cowdate = document.getElementById('cowdate').value;
-        console.log('Submitted', cowregnumber, cowbreed, cowdate)
-    }
-
-    render(){
-        return (
-            <div>
-                <h1>Add cow</h1>
-                <form onSubmit={this.handleSubmit}>
-                    <div className="form-group">
-                        <label htmlFor="cowregnumber">Register Number</label>
-                        <input id="cowregnumber" type="text" className="form-control" />
-                    </div>
-                    <div className="form-group">
-                        <label htmlFor="cowbreed">Breed</label>
-                        <input id="cowbreed" type="text" className="form-control" />
-                    </div>
-                    <div className="form-group">
-                        <label htmlFor="cowdate">Date</label>
-                        <input id="cowdate" type="text" className="form-control" />
-                    </div>
-                    <button className="btn btn-primary">Add cow</button>
-                </form>
-            </div>)
-    }
+  render() {
+    return (
+      <div>
+        <h1>Add cow</h1>
+        <form onSubmit={this.handleSubmit}>
+          {this.renderInput("regNumber", "Register Number")}
+          {this.renderSelect("breedId", "Breed", [
+            { "._id": "001", name: "Montbeliard" },
+            { "._id": "002", name: "Holstein" },
+          ])}
+          {this.renderInput("dateIn", "Date In", "number")}
+          {this.renderButton("Save")}
+        </form>
+      </div>
+    );
+  }
 }
 
-export default CowForm
+export default CowForm;
